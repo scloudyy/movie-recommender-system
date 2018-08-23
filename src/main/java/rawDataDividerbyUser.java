@@ -17,4 +17,16 @@ public class rawDataDividerbyUser {
             context.write(new Text(user), new Text(movie + ":" + rating));
         }
     }
+
+    public static class rawDataDividerReducer extends Reducer<Text, Text, Text, Text> {
+        @Override
+        protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+            StringBuilder stringBuilder = new StringBuilder();
+            for (Text value : values) {
+                stringBuilder.append("," + value.toString());
+            }
+            //key = user value=movie1:rating1,movie2:rating2...
+            context.write(key, new Text(stringBuilder.toString().replaceFirst(",", "")));
+        }
+    }
 }
