@@ -9,12 +9,15 @@ import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 import java.io.IOException;
-import java.util.zip.DataFormatException;
 
 public class rawDataDividerbyUser {
     public static class rawDataDividerMapper extends Mapper<LongWritable, Text, Text, Text> {
         @Override
         protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+            // inputKey: line number
+            // inputValue: user:movie:rating
+            // outputKey: user
+            // outputValue: movie:rating
             String[] userMovieRating = value.toString().trim().split(":");
             String user = userMovieRating[0];
             String movie = userMovieRating[1];
@@ -27,6 +30,10 @@ public class rawDataDividerbyUser {
     public static class rawDataDividerReducer extends Reducer<Text, Text, Text, Text> {
         @Override
         protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+            // inputKey: user
+            // inputValue: movie:rating
+            // outputKey: user
+            // outputValue: movie1:rating1,movie2:rating2...
             StringBuilder stringBuilder = new StringBuilder();
             for (Text value : values) {
                 stringBuilder.append("," + value.toString());
