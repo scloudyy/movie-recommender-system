@@ -16,8 +16,8 @@ public class MultiplicationSum {
         @Override
         protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
             // inputKey: line number
-            // inputValue: user:movieB \t rating
-            // outputKey: user:movieB
+            // inputValue: user:movie \t rating
+            // outputKey: user:movie
             // outputValue: rating
             String[] line = value.toString().trim().split("\t");
             String outputKey = line[0];
@@ -29,6 +29,10 @@ public class MultiplicationSum {
     public static class SumReducer extends Reducer<Text, DoubleWritable, Text, DoubleWritable> {
         @Override
         protected void reduce(Text key, Iterable<DoubleWritable> values, Context context) throws IOException, InterruptedException {
+            // inputKey: user:movie
+            // inputValue: <rating, ...>
+            // outputKey: user:movie
+            // outputValue: rating
             double sum = 0;
             for (DoubleWritable value : values) {
                 sum += value.get();

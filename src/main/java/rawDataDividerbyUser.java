@@ -31,7 +31,7 @@ public class rawDataDividerbyUser {
         @Override
         protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
             // inputKey: user
-            // inputValue: movie:rating
+            // inputValue: <movie:rating, ...>
             // outputKey: user
             // outputValue: movie1:rating1,movie2:rating2...
             StringBuilder stringBuilder = new StringBuilder();

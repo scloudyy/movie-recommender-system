@@ -32,7 +32,7 @@ public class CoOccurrenceMatrixNormalizer {
         @Override
         protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
             // inputKey: movie1
-            // inputValue: movie2:relation
+            // inputValue: <movie2:relation, ...>
             // outputKey: movie2
             // outputValue: movie1:normalizeValue
 
